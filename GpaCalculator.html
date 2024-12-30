@@ -226,14 +226,4 @@
             Array.from(subjectsTable.children).forEach((row, index) => {
                 const grade = row.children[2].children[0].value;
                 const credit = parseFloat(row.children[3].children[0].value);
-                const subjectName = row.children[1].children[0].value || `Subject ${index + 1}`;
-
-                if (!gradePoints.hasOwnProperty(grade) || isNaN(credit) || credit <= 0) {
-                    resultDiv.textContent = `Invalid data for Subject ${index + 1}`;
-                    return;
-                }
-
-                const gradePoint = gradePoints[grade] * credit;
-                semesterTotalPoints += gradePoint;
-                semesterCredits += credit;
-                detailedSemesterTable += `<tr><
+                const 
