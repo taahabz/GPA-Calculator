@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA & CGPA Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0a1d3b;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #132b50;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 900px;
+        }
+
+        h1 {
+            color: #4fc3f7;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: #1a355a;
+            border-radius: 8px;
+        }
+
+        .inputs {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        input, select {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        table th, table td {
+            border: 1px solid #4fc3f7;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #132b50;
+            color: #4fc3f7;
+        }
+
+        table td input, table td select {
+            width: 90%;
+            padding: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        button {
+            background-color: #4fc3f7;
+            color: #0a1d3b;
+            font-weight: bold;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .result p {
+            margin: 0.5rem 0;
+        }
+
+        .result table {
+            margin: 1rem auto;
+            width: 80%;
+        }
+
+        .print-button {
+            background-color: #ff7043;
+            margin-top: 1rem;
+        }
+
+    </style>
+</head>
