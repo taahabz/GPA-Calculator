@@ -1,6 +1,6 @@
 # GPA & CGPA Calculator
 
-![GPA Calculator](screenshots/gpa_calculator.png "GPA Calculator")
+![GPA Calculator](Screenshots/gpa_calculator.png "GPA Calculator")
 
 This web application provides an interactive GPA and CGPA calculator for students. It allows users to input their semester grades and credit hours and calculates their GPA for the current semester as well as their updated cumulative GPA (CGPA).
 
