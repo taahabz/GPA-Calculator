@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA & CGPA Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0a1d3b;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #132b50;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 900px;
+        }
+
+        h1 {
+            color: #4fc3f7;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: #1a355a;
+            border-radius: 8px;
+        }
+
+        .inputs {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        input, select {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        table th, table td {
+            border: 1px solid #4fc3f7;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #132b50;
+            color: #4fc3f7;
+        }
+
+        table td input, table td select {
+            width: 90%;
+            padding: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        button {
+            background-color: #4fc3f7;
+            color: #0a1d3b;
+            font-weight: bold;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .result p {
+            margin: 0.5rem 0;
+        }
+
+        .result table {
+            margin: 1rem auto;
+            width: 80%;
+        }
+
+        .print-button {
+            background-color: #ff7043;
+            margin-top: 1rem;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GPA & CGPA Calculator</h1>
+
+        <div class="section">
+            <h2>Previous Semester Details</h2>
+            <div class="inputs">
+                <label for="cgpa">Current CGPA:</label>
+                <input type="number" id="cgpa" step="0.001" placeholder="Enter current CGPA">
+
+                <label for="totalCredits">Total Credit Hours:</label>
+                <input type="number" id="totalCredits" placeholder="Enter total credits">
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Current Semester Details</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Subject Name</th>
+                        <th>Grade</th>
+                        <th>Credit Hours</th>
+                    </tr>
+                </thead>
+                <tbody id="subjects">
+                    <!-- Dynamic rows will be added here -->
+                </tbody>
+            </table>
+        </div>
+
+        <button id="calculate">Calculate Results</button>
+        <button class="print-button" id="print">Print Results</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const gradePoints = {
+            'A': 4.0,
+            'Bplus': 3.5,
+            'B': 3.0,
+            'Cplus': 2.5,
+            'C': 2.0,
+            'Dplus': 1.5,
+            'D': 1.0,
+            'F': 0.0
+        };
+
+        const subjectsTable = document.getElementById('subjects');
+        const resultDiv = document.getElementById('result');
+
+        function createSubjectInputs() {
+            for (let i = 1; i <= 10; i++) {
+                const row = document.createElement('tr');
+
+                const noCell = document.createElement('td');
+                noCell.textContent = i;
+
+                const subjectCell = document.createElement('td');
+                const subjectInput = document.createElement('input');
+                subjectInput.type = 'text';
+                subjectInput.placeholder = `Subject ${i}`;
+                subjectCell.appendChild(subjectInput);
+
+                const gradeCell = document.createElement('td');
+                const gradeSelect = document.createElement('select');
+                Object.keys(gradePoints).forEach(grade => {
+                    const option = document.createElement('option');
+                    option.value = grade;
+                    option.textContent = grade;
+                    gradeSelect.appendChild(option);
+                });
+                gradeCell.appendChild(gradeSelect);
+
+                const creditCell = document.createElement('td');
+                const creditInput = document.createElement('input');
+                creditInput.type = 'number';
+                creditInput.placeholder = 'Credit Hours';
+                creditCell.appendChild(creditInput);
+
+                row.appendChild(noCell);
+                row.appendChild(subjectCell);
+                row.appendChild(gradeCell);
+                row.appendChild(creditCell);
+                subjectsTable.appendChild(row);
+            }
+        }
+
+        function calculateResults() {
+            const cgpaInput = document.getElementById('cgpa').value;
+            const totalCreditsInput = document.getElementById('totalCredits').value;
+
+            const cgpa = parseFloat(cgpaInput);
+            const totalCredits = parseFloat(totalCreditsInput);
+
+            let includePrevious = !isNaN(cgpa) && !isNaN(totalCredits) && totalCredits > 0;
+
+            let semesterTotalPoints = 0;
+            let semesterCredits = 0;
+
+            let detailedSemesterTable = `<table><thead><tr><th>Subject Name</th><th>Grade</th><th>Credit Hours</th><th>Grade Points</th></tr></thead><tbody>`;
+
+            Array.from(subjectsTable.children).forEach((row, index) => {
+                const grade = row.children[2].children[0].value;
+                const credit = parseFloat(row.children[3].children[0].value);
+                const subjectName = row.children[1].children[0].value || `Subject ${index + 1}`;
+
+                if (!gradePoints.hasOwnProperty(grade) || isNaN(credit) || credit <= 0) {
+                    resultDiv.textContent = `Invalid data for Subject ${index + 1}`;
+                    return;
+                }
+
+                const gradePoint = gradePoints[grade] * credit;
+                semesterTotalPoints += gradePoint;
+                semesterCredits += credit;
+                detailedSemesterTable += `<tr><td>${subjectName}</td><td>${grade}</td><td>${credit}</td><td>${gradePoint.toFixed(3)}</td></tr>`;
+            });
+
+            detailedSemesterTable += `</tbody></table>`;
+
+            const semesterGPA = semesterTotalPoints / semesterCredits;
+            let resultMessage = `<p><strong>Semester GPA:</strong> ${semesterGPA.toFixed(3)}</p>`;
+            resultMessage += `<p><strong>Total Credits (Current Semester):</strong> ${semesterCredits}</p>`;
+            resultMessage += detailedSemesterTable;
+
+            if (includePrevious) {
+                const newCGPA = ((cgpa * totalCredits) + semesterTotalPoints) / (totalCredits + semesterCredits);
+                resultMessage += `<p><strong>New CGPA:</strong> ${newCGPA.toFixed(3)}</p>`;
+                resultMessage += `<p><strong>Total Credits (Including Previous):</strong> ${totalCredits + semesterCredits}</p>`;
+            }
+
+            resultDiv.innerHTML = resultMessage;
+        }
+
+        function printResults() {
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write('<html><head><title>Results</title></head><body>');
+            printWindow.document.write('<h1>GPA & CGPA Calculation Results</h1>');
+            printWindow.document.write(resultDiv.innerHTML);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        document.getElementById('calculate').addEventListener('click', calculateResults);
+        document.getElementById('print').addEventListener('click', printResults);
+        createSubjectInputs();
+    </script>
+</body>
+</html>
