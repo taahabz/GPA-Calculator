@@ -258,5 +258,16 @@
         function printResults() {
             const printWindow = window.open('', '_blank');
             printWindow.document.write('<html><head><title>Results</title></head><body>');
- 
+            printWindow.document.write('<h1>GPA & CGPA Calculation Results</h1>');
+            printWindow.document.write(resultDiv.innerHTML);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        document.getElementById('calculate').addEventListener('click', calculateResults);
+        document.getElementById('print').addEventListener('click', printResults);
+        createSubjectInputs();
+    </script>
+</body>
 </html>
