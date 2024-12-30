@@ -33,8 +33,8 @@ This web application provides an interactive GPA and CGPA calculator for student
 
 1. Enter your current CGPA and total credit hours (if applicable).
 2. Fill in the subject details for the current semester:
-- **Subject name
-- **Grade (from a dropdown menu)
-- **Credit hours
+- Subject name
+- Grade (from a dropdown menu)
+- Credit hours
 3. Click Calculate Results to see your GPA and updated CGPA.
 4. Use the Print Results button to print or save a copy of your results.
