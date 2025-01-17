@@ -160,11 +160,11 @@
     <script>
         const gradePoints = {
             'A': 4.0,
-            'Bplus': 3.5,
+            'B+': 3.5,
             'B': 3.0,
-            'Cplus': 2.5,
+            'C+': 2.5,
             'C': 2.0,
-            'Dplus': 1.5,
+            'D+': 1.5,
             'D': 1.0,
             'F': 0.0
         };
@@ -236,27 +236,27 @@
                 const gradePoint = gradePoints[grade] * credit;
                 semesterTotalPoints += gradePoint;
                 semesterCredits += credit;
-                detailedSemesterTable += `<tr><td>${subjectName}</td><td>${grade}</td><td>${credit}</td><td>${gradePoint.toFixed(3)}</td></tr>`;
+                detailedSemesterTable += `<tr><td>${subjectName}</td><td>${grade}</td><td>${credit}</td><td>${gradePoint.toFixed(1)}</td></tr>`;
             });
 
             detailedSemesterTable += `</tbody></table>`;
 
             const semesterGPA = semesterTotalPoints / semesterCredits;
             let resultMessage = `<p><strong>Semester GPA:</strong> ${semesterGPA.toFixed(3)}</p>`;
-            resultMessage += `<p><strong>Total Credits (Current Semester):</strong> ${semesterCredits}</p>`;
+            resultMessage += `<p><strong>Credits Earned:</strong> ${semesterCredits}</p>`;
             resultMessage += detailedSemesterTable;
 
             if (includePrevious) {
                 const newCGPA = ((cgpa * totalCredits) + semesterTotalPoints) / (totalCredits + semesterCredits);
-                resultMessage += `<p><strong>New CGPA:</strong> ${newCGPA.toFixed(3)}</p>`;
-                resultMessage += `<p><strong>Total Credits (Including Previous):</strong> ${totalCredits + semesterCredits}</p>`;
+                resultMessage += `<p><strong>Cumulative GPA:</strong> ${newCGPA.toFixed(3)}</p>`;
+                resultMessage += `<p><strong>Total Credits:</strong> ${totalCredits + semesterCredits}</p>`;
             }
 
             resultDiv.innerHTML = resultMessage;
         }
 
         function printResults() {
-            const printWindow = window.open('', '_blank');
+            const printWindow = window.open('', '_blank'); 
             printWindow.document.write('<html><head><title>Results</title></head><body>');
             printWindow.document.write('<h1>GPA & CGPA Calculation Results</h1>');
             printWindow.document.write(resultDiv.innerHTML);
